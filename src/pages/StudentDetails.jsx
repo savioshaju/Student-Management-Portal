@@ -10,7 +10,7 @@ import {
 } from '../redux/slice/students';
 
 import Loading from '../Components/Loading';
-import Error from '../Components/error';
+import Error from '../Components/Error';
 const StudentDetails = () => {
   const { roll_number } = useParams();
   const rollNumber=roll_number

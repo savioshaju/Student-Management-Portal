@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStudents } from '../assets/api';
 import { setAllStudents, setError, setLoading } from '../redux/slice/students';
 import Loading from '../Components/Loading';
-import Error from '../Components/error';
+import Error from '../Components/Error';
 import { Link } from 'react-router-dom';
 
 const Students = () => {
