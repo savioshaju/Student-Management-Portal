@@ -7,21 +7,19 @@ import Error from '../Components/Error';
 
 const StudentDetails = () => {
   const { roll_number } = useParams();
-  const rollNumber = roll_number;
-
   const [student, setStudent] = useState(null);
+  const [originalData, setOriginalData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [originalData, setOriginalData] = useState(null); 
 
   useEffect(() => {
     const fetchStudent = async () => {
       try {
         setLoading(true);
-        const data = await getStudentByRollNumber(rollNumber);
+        const data = await getStudentByRollNumber(roll_number);
         setStudent(data);
-        setOriginalData(data); 
+        setOriginalData(data);
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to fetch student');
       } finally {
@@ -29,11 +27,7 @@ const StudentDetails = () => {
       }
     };
     fetchStudent();
-  }, [rollNumber]);
-
-  const handleChange = (field, value) => {
-    setStudent((prev) => ({ ...prev, [field]: value }));
-  };
+  }, [roll_number]);
 
   const handleMarksChange = (subject, value) => {
     const updatedMarks = {
@@ -41,15 +35,15 @@ const StudentDetails = () => {
       [subject]: Number(value)
     };
 
-    const total = Object.values(updatedMarks).reduce((sum, m) => sum + (Number(m) || 0), 0);
+    const total = Object.values(updatedMarks).reduce((sum, mark) => sum + (Number(mark) || 0), 0);
     const avg = total / Object.keys(updatedMarks).length;
 
-    setStudent((prev) => ({
-      ...prev,
+    setStudent({
+      ...student,
       marks: updatedMarks,
       total,
       average: avg.toFixed(2)
-    }));
+    });
   };
 
   const handleCancel = () => {
@@ -69,7 +63,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.name}
-              onChange={(e) => handleChange('name', e.target.value)}
+              onChange={(e) => setStudent({ ...student, name: e.target.value })}
               className="border p-1 rounded"
             />
           ) : (
@@ -101,7 +95,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.class}
-              onChange={(e) => handleChange('class', e.target.value)}
+              onChange={(e) => setStudent({ ...student, class: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (
@@ -114,7 +108,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.roll_number}
-              onChange={(e) => handleChange('roll_number', e.target.value)}
+              onChange={(e) => setStudent({ ...student, roll_number: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (
@@ -127,7 +121,7 @@ const StudentDetails = () => {
             <input
               type="email"
               value={student.email}
-              onChange={(e) => handleChange('email', e.target.value)}
+              onChange={(e) => setStudent({ ...student, email: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (
@@ -140,7 +134,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
+              onChange={(e) => setStudent({ ...student, phone: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (
@@ -153,7 +147,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.father_name}
-              onChange={(e) => handleChange('father_name', e.target.value)}
+              onChange={(e) => setStudent({ ...student, father_name: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (
@@ -166,7 +160,7 @@ const StudentDetails = () => {
             <input
               type="text"
               value={student.mother_name}
-              onChange={(e) => handleChange('mother_name', e.target.value)}
+              onChange={(e) => setStudent({ ...student, mother_name: e.target.value })}
               className="border p-1 ml-2 rounded"
             />
           ) : (

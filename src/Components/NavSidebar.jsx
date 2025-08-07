@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { setStudents } from "../redux/slice/students";
 import { useDispatch, useSelector } from "react-redux";
-
+import AddStudentForm from "./AddStudentForm";
 const NavSidebar = () => {
   const [selectedClass, setSelectedClass] = useState("All");
   const { allData } = useSelector((state) => state.students);
   const dispatch = useDispatch();
-
+  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     if (selectedClass === "All") {
       dispatch(setStudents(allData));
@@ -47,8 +47,13 @@ const NavSidebar = () => {
           <button onClick={() => setSelectedClass(11)} className={btnStyle(11)}>11</button>
           <button onClick={() => setSelectedClass(12)} className={btnStyle(12)}>12</button>
         </div>
+        <button onClick={() => setShowForm(true)} className="px-4 py-2 rounded border text-sm font-medium w-full text-center ring-2 ring-blue-500 bg-blue-100">Add New Student</button>
       </div>
-
+      {showForm && (
+        <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-gray-100  p-4">
+          <AddStudentForm />
+        </div>
+      )}
     </>
   );
 };
