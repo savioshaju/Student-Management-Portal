@@ -17,6 +17,20 @@ const StudentDetails = () => {
     const fetchStudent = async () => {
       try {
         setLoading(true);
+
+        const localData = localStorage.getItem('students');
+        if (localData) {
+          const allStudents = JSON.parse(localData);
+          const found = allStudents.find((s) => s.roll_number === roll_number);
+          
+          if (found) {
+            setStudent(found);
+            setOriginalData(found);
+            return; 
+          }
+        }
+
+
         const data = await getStudentByRollNumber(roll_number);
         setStudent(data);
         setOriginalData(data);
@@ -26,8 +40,10 @@ const StudentDetails = () => {
         setLoading(false);
       }
     };
+
     fetchStudent();
   }, [roll_number]);
+
 
   const handleMarksChange = (subject, value) => {
     const updatedMarks = {
